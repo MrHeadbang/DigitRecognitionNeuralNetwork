@@ -17,9 +17,9 @@ int main(void) {
 
     vector<double> output = network.feedForward(grayScale);
     
-    grayScale = dataset[10000].first;
+    grayScale = dataset[1000].first;
 
-    cout << dataset[10000].second << endl;
+    cout << dataset[1000].second << endl;
 
     cout << endl;
     cout << "------------INPUT------------" << endl;

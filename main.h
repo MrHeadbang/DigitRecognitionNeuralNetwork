@@ -33,4 +33,6 @@ class Network {
         Network(vector<int> params);
         vector<double> feedForward(vector<double> input);
         vector<double> calcLayerNeurons(vector<double> layerInput, vector<vector<double>> layerWeights,vector<double> layerBiases);
+        void stochasticGradientDescent(vector<pair<vector<double>,int>> trainingData, int miniBatchSize, int epochs, double learningRate);
+        void updateMiniBatch(vector<pair<vector<double>,int>> miniBatch, double learningRate);
 };

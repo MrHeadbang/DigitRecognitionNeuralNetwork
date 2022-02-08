@@ -53,3 +53,31 @@ vector<double> Network::feedForward(vector<double> input) {
     }
     return input;
 }
+void Network::stochasticGradientDescent(vector<pair<vector<double>,int>> trainingData, int miniBatchSize, int epochs, double learningRate) {
+    int trainingDataSize = trainingData.size();
+    //Loop wanted epochs times
+    for (int i = 0; i < epochs; i++) {
+        //Random shuffle of training data
+        random_shuffle(begin(trainingData), end(trainingData));
+        //Split trainingData in miniBatches
+        vector<vector<pair<vector<double>,int>>> miniBatches;
+        vector<pair<vector<double>,int>> tmpBatch;
+        for (int j = 0; j < trainingDataSize; j++) {
+            tmpBatch.push_back(trainingData[j]);
+            //If miniBachSize is reached, push to miniBatches and clear tmpBatch 
+            if ((j % miniBatchSize == 0 || j == trainingDataSize - 1) && j) {
+                miniBatches.push_back(tmpBatch);
+                tmpBatch.clear();
+            }
+        }
+        //Applying function over each miniBatch
+        int miniBatchesSize = miniBatches.size();
+        for (int k = 0; k < miniBatchesSize; k++) {
+            updateMiniBatch(miniBatches[k], learningRate);
+        }
+    }
+    
+}
+void Network::updateMiniBatch(vector<pair<vector<double>,int>> miniBatch, double learningRate) {
+    
+}
