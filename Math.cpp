@@ -2,6 +2,10 @@
 double Math::Sigmoid(double value) {
     return 1 / (1 + pow(2.71828182845904, -value));
 }
+double Math::SigmoidDerivative(double value) {
+    double sig = Sigmoid(value);
+    return sig * (1 - sig);
+}
 double Math::RandomGauss(void) {
     unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     default_random_engine generator(seed);

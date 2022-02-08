@@ -22,6 +22,7 @@ class Math {
         double RandomGauss(void);
         double cost(vector<double> vec1, vector<double> vec2);
         vector<double> perfectResult(int numberElements, int i);
+        double SigmoidDerivative(double value);
 };
 class Network {
     Math math;
@@ -35,4 +36,8 @@ class Network {
         vector<double> calcLayerNeurons(vector<double> layerInput, vector<vector<double>> layerWeights,vector<double> layerBiases);
         void stochasticGradientDescent(vector<pair<vector<double>,int>> trainingData, int miniBatchSize, int epochs, double learningRate);
         void updateMiniBatch(vector<pair<vector<double>,int>> miniBatch, double learningRate);
+        
+        //Needs probably to be changed
+        pair<double, vector<vector<vector<double>>>> backpropagation(/*Params expected*/);
+
 };
