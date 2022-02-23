@@ -2,8 +2,8 @@
 double Math::Sigmoid(double value) {
     return 1 / (1 + pow(2.71828182845904, -value));
 }
-double Math::SigmoidDerivative(double value) {
-    double sig = Sigmoid(value);
+double Math::SigmoidDerivative(double sig) {
+    //double sig = Sigmoid(value);
     return sig * (1 - sig);
 }
 double Math::RandomGauss(void) {

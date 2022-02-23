@@ -17,9 +17,10 @@ int main(void) {
 
     vector<double> output = network.feedForward(grayScale);
     
-    grayScale = dataset[1000].first;
 
-    cout << dataset[1000].second << endl;
+    network.stochasticGradientDescent(dataset, 15, 1, 4.5);
+
+    return 0;
 
     cout << endl;
     cout << "------------INPUT------------" << endl;
