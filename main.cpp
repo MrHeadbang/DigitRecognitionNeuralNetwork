@@ -5,23 +5,19 @@ int main(void) {
     srand(time(NULL));
     ExampleReader exampleReader;
     Math math;
-    Network network({784, 16, 14, 10});
+    Network network({784, 15, 10});
 
     string base_dir = "examples/mnist/";
     string img_path = base_dir + "train-images.idx3-ubyte";
     string label_path = base_dir + "train-labels.idx1-ubyte";
 
     vector<pair<vector<double>,int>> dataset = exampleReader.loadFormatMNIST(img_path, label_path);    
+
+    network.stochasticGradientDescent(dataset, 5000, 50, 0.1);
     
     vector<double> grayScale = exampleReader.ImageToVector("examples/3.png");
 
     vector<double> output = network.feedForward(grayScale);
-
-
-
-    network.stochasticGradientDescent(dataset, 15, 1, 4.5);
-
-    return 0;
 
     cout << endl;
     cout << "------------INPUT------------" << endl;

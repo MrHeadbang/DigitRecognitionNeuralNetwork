@@ -86,8 +86,14 @@ void Network::stochasticGradientDescent(vector<pair<vector<double>,int>> trainin
 }
 
 void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double learningRate) {
+
+
+    double checked = 1;
+    double correct = 1;
+
     //Iterate over miniBatch
     for (int i = 0; i < miniBatch.size(); i++) {
+        
         vector<double> grayScale = miniBatch[i].first;
         int grayScaleDigit = miniBatch[i].second;
         //Calculate each neron value
@@ -100,16 +106,22 @@ void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double l
             grayScale = calcLayerNeurons(grayScale, currentWeights, currentBiases);
             neuronValues.push_back(grayScale);
         }
+
+        checked++;
+        vector<double> outputNeurons = neuronValues[neuronValues.size() - 1];
+        int highestElement = distance(outputNeurons.begin(), max_element(outputNeurons.begin(), outputNeurons.end()));
+        if (grayScaleDigit == highestElement) {
+            correct++;
+        }
+
         //Calculating deltaWeights
         vector<vector<vector<double>>> deltaWeights;
-
 
         vector<vector<double>> deltaNeurons;
         vector<double> deltaErrors;
 
         //Calculate error for output layer
-        
-        vector<double> outputNeurons = neuronValues[neuronValues.size() - 1];
+        //vector<double> outputNeurons = neuronValues[neuronValues.size() - 1];
         vector<double> targets = math.perfectResult(outputNeurons.size(), grayScaleDigit);
         for (int j = 0; j < targets.size(); j++) {
             deltaErrors.push_back(targets[j] - outputNeurons[j]);
@@ -117,7 +129,7 @@ void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double l
         deltaNeurons.push_back(deltaErrors);
 
         //Start weights from the back for backpropagation 
-        for (int l = weights.size() - 1; l >= 0; l--) {
+        for (int l = weights.size() - 1; l > 0; l--) {
             //Current columns
             vector<vector<double>> weightLayer = weights[l];
             vector<double> neuronLayer = neuronValues[l];
@@ -137,10 +149,22 @@ void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double l
             }
             deltaNeurons.push_back(deltaErrors);
             
-        } 
-        cout << deltaNeurons[3].size() << endl;
+        }
 
-        //REMOVE LATER
-        break;
+        //Reverse deltaNeuron vector
+        reverse(deltaNeurons.begin(), deltaNeurons.end());
+        neuronValues.pop_back();
+
+        //Applying delta changes to weights
+        for (int d = 0; d < neuronValues.size(); d++) {
+            vector<double> currentDelta = deltaNeurons[d];
+            vector<double> currentNeurons = neuronValues[d];
+            for (int deltaIterator = 0; deltaIterator < currentDelta.size(); deltaIterator++) {
+                for (int neuronIterator = 0; neuronIterator < currentNeurons.size(); neuronIterator++) {
+                    weights[d][deltaIterator][neuronIterator] += learningRate * currentDelta[deltaIterator] * currentNeurons[neuronIterator];
+                }
+            }
+        }
     }
+    cout << (double)correct / (double)checked * (double)100 << endl;
 }
