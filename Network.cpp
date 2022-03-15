@@ -105,30 +105,41 @@ void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double l
 
 
         vector<vector<double>> deltaNeurons;
-        //Start weights from the back for backpropagation 
-        for (int i = weights.size() - 1; i >= 0; i--) {
-            //Current weight column
-            vector<vector<double>> weightLayer = weights[i];
-            vector<double> neuronLayer = neuronValues[i];
-            vector<vector<double>> deltaNeuronLayer;
-            vector<double> deltaErrors;
+        vector<double> deltaErrors;
 
-            if (i == weights.size() - 1) {
-                //Calculate error for output layer
-                vector<double> targets = math.perfectResult(weightLayer.size(), grayScaleDigit);
-                for (int j = 0; j < targets.size(); j++) {
-                    deltaErrors.push_back(targets[j] - neuronValues[i + 1][j]);
-                }
-                deltaNeurons.push_back(deltaErrors);
-                break;
-            }
-            for (int j = 0; j < weightLayer.size(); j++) {
-                vector<double> previousErrors = deltaNeurons[weights.size() - 2 - j];
-                
-            }
-
-
+        //Calculate error for output layer
+        
+        vector<double> outputNeurons = neuronValues[neuronValues.size() - 1];
+        vector<double> targets = math.perfectResult(outputNeurons.size(), grayScaleDigit);
+        for (int j = 0; j < targets.size(); j++) {
+            deltaErrors.push_back(targets[j] - outputNeurons[j]);
         }
+        deltaNeurons.push_back(deltaErrors);
+
+        //Start weights from the back for backpropagation 
+        for (int l = weights.size() - 1; l >= 0; l--) {
+            //Current columns
+            vector<vector<double>> weightLayer = weights[l];
+            vector<double> neuronLayer = neuronValues[l];
+            vector<double> previousErrors = deltaNeurons[weights.size() - 1 - l];
+        
+
+            //Iterate over hidden neurons
+            deltaErrors.clear();
+            for (int w = 0; w < neuronLayer.size(); w++) {
+                //Calculating sum for delta
+                double deltaNeuronSum = 0;
+                for (int x = 0; x < previousErrors.size(); x++) {
+                    //Add delta * prevois neuron error
+                    deltaNeuronSum += weightLayer[x][w] * previousErrors[x];
+                }
+                deltaErrors.push_back(deltaNeuronSum);
+            }
+            deltaNeurons.push_back(deltaErrors);
+            
+        } 
+        cout << deltaNeurons[3].size() << endl;
+
         //REMOVE LATER
         break;
     }

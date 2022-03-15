@@ -5,7 +5,7 @@ int main(void) {
     srand(time(NULL));
     ExampleReader exampleReader;
     Math math;
-    Network network({784, 16, 10});
+    Network network({784, 16, 14, 10});
 
     string base_dir = "examples/mnist/";
     string img_path = base_dir + "train-images.idx3-ubyte";
@@ -16,7 +16,8 @@ int main(void) {
     vector<double> grayScale = exampleReader.ImageToVector("examples/3.png");
 
     vector<double> output = network.feedForward(grayScale);
-    
+
+
 
     network.stochasticGradientDescent(dataset, 15, 1, 4.5);
 
