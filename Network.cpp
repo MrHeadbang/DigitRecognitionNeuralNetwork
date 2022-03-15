@@ -56,7 +56,7 @@ vector<double> Network::feedForward(vector<double> input) {
 void pv(vector<double> vec) {
     for (int i = 0; i < vec.size(); i++)
         cout << vec[i] << ' ';
-    cout << endl << endl;
+    cout << "\n" << "\n";
 }
 void Network::stochasticGradientDescent(vector<pair<vector<double>,int>> trainingData, int miniBatchSize, int epochs, double learningRate) {
     int trainingDataSize = trainingData.size();
@@ -64,22 +64,14 @@ void Network::stochasticGradientDescent(vector<pair<vector<double>,int>> trainin
     for (int i = 0; i < epochs; i++) {
         //Random shuffle of training data
         random_shuffle(begin(trainingData), end(trainingData));
-        //Split trainingData in miniBatches
-        vector<vector<pair<vector<double>,int>>> miniBatches;
-        vector<pair<vector<double>,int>> tmpBatch;
+        vector<pair<vector<double>,int>> miniBatch;
         for (int j = 0; j < trainingDataSize; j++) {
-            tmpBatch.push_back(trainingData[j]);
+            miniBatch.push_back(trainingData[j]);
             //If miniBachSize is reached, push to miniBatches and clear tmpBatch 
             if ((j % miniBatchSize == 0 || j == trainingDataSize - 1) && j) {
-                miniBatches.push_back(tmpBatch);
-                tmpBatch.clear();
+                updateNetwork(miniBatch, learningRate);
+                break;
             }
-        }
-        //Applying function over each miniBatch
-        int miniBatchesSize = miniBatches.size();
-        for (int k = 0; k < miniBatchesSize; k++) {
-            updateNetwork(miniBatches[k], learningRate);
-            break;
         }
     }
     
@@ -166,5 +158,5 @@ void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double l
             }
         }
     }
-    cout << (double)correct / (double)checked * (double)100 << endl;
+    cout << (double)correct / (double)checked * (double)100 << "\n";
 }
