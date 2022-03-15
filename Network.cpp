@@ -5,10 +5,12 @@ Network::Network(vector<int> params) {
     for (int i = 1; i < num_layers; i++) {
         vector<double> biases_output;
         for (int j = 0; j < params[i]; j++) {
-            biases_output.push_back(math.RandomGauss());
-            }
+            //biases_output.push_back(math.RandomGauss());
+            biases_output.push_back(1);
+        }
         biases.push_back(biases_output);
     }
+    weights = networkDatabase.getWeights(); return;
     for (int i = 1; i < num_layers; i++) {
         vector<vector<double>> weightNeurons;
         for (int j = 0; j < params[i]; j++) {
@@ -78,11 +80,8 @@ void Network::stochasticGradientDescent(vector<pair<vector<double>,int>> trainin
 }
 
 void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double learningRate) {
-
-
     double checked = 1;
     double correct = 1;
-
     //Iterate over miniBatch
     for (int i = 0; i < miniBatch.size(); i++) {
         
@@ -158,5 +157,6 @@ void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double l
             }
         }
     }
+    networkDatabase.saveWeights(weights);
     cout << (double)correct / (double)checked * (double)100 << "\n";
 }

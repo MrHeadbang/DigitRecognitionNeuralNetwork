@@ -24,8 +24,14 @@ class Math {
         vector<double> perfectResult(int numberElements, int i);
         double SigmoidDerivative(double value);
 };
+class NetworkDatabase {
+    public:
+        void saveWeights(vector<vector<vector<double>>> weights);
+        vector<vector<vector<double>>> getWeights();
+};
 class Network {
     Math math;
+    NetworkDatabase networkDatabase;
     public:
         int num_layers;
         vector<int> sizes;
@@ -36,8 +42,5 @@ class Network {
         vector<double> calcLayerNeurons(vector<double> layerInput, vector<vector<double>> layerWeights,vector<double> layerBiases);
         void stochasticGradientDescent(vector<pair<vector<double>,int>> trainingData, int miniBatchSize, int epochs, double learningRate);
         void updateNetwork(vector<pair<vector<double>,int>> miniBatch, double learningRate);
-        
-        //Needs probably to be changed
-        pair<double, vector<vector<vector<double>>>> backpropagation(/*Params expected*/);
-
 };
+

@@ -29,7 +29,7 @@ int main(void) {
 
     vector<pair<vector<double>,int>> dataset = exampleReader.loadFormatMNIST(img_path, label_path);    
 
-    network.stochasticGradientDescent(dataset, 2000, 100, 0.01);
+    //network.stochasticGradientDescent(dataset, 60000, 10, 0.005);
     
     testDigit("examples/0.png", network);
     testDigit("examples/9.png", network);
@@ -37,9 +37,9 @@ int main(void) {
     testDigit("examples/1.png", network);
     testDigit("examples/7.png", network);
     testDigit("examples/8.png", network);
+    testDigit("examples/4.png", network);
     
     
-    //cout << math.cost(output, math.perfectResult(10, 9)) << "\n";
 
 
     return 0;
