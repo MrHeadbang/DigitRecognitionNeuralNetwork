@@ -55,11 +55,7 @@ vector<double> Network::feedForward(vector<double> input) {
     }
     return input;
 }
-void pv(vector<double> vec) {
-    for (int i = 0; i < vec.size(); i++)
-        cout << vec[i] << ' ';
-    cout << "\n" << "\n";
-}
+
 void Network::stochasticGradientDescent(vector<pair<vector<double>,int>> trainingData, int miniBatchSize, int epochs, double learningRate) {
     int trainingDataSize = trainingData.size();
     //Loop wanted epochs times

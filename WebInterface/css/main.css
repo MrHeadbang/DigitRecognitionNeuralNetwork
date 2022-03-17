@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 10px;
+    background-color: black;
+}
+.class-drawing-container {
+    --size: 4;
+    width: 500px;
+    height: 500px;
+    gap: 1px;
+    display: grid;
+    border-radius: 5px;
+    grid-template-columns: repeat(var(--size), 1fr);
+    grid-template-rows: repeat(var(--size), 1fr);
+    background-color: gray;
+}
+.class-drawing {
+    background-color: black;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    display: inline-block;
+    float: left;
+}
+.class-drawing-clear {
+    margin-top: 5px;
+    background-color: black;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.class-drawing-clear:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+.class-drawing-clear-text {
+    color: white;
+    font-weight: bold;
+}
+
+.pixel{
+    background-color: black;
+    border-radius: 2px;
+}
+.class-drawing-float-result {
+    width: 500px;
+    height: 300px;
+}
+.class-result-table {
+    float: left;
+    color: white;
+    margin-top: 20px;
+    font-size: 26px;
+}

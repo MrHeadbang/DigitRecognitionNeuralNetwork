@@ -42,6 +42,5 @@ vector<vector<vector<double>>> NetworkDatabase::getWeights() {
         }
         output.push_back(neuronColumns);
     }
-
     return output;
 }

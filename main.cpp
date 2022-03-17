@@ -16,7 +16,11 @@ int testDigit(string path, Network network) {
     cout << "Highest Value: " << output[max] << " at " << max << "\n";
     return 0;
 }
-
+void pv(vector<double> vec) {
+    for (int i = 0; i < vec.size(); i++)
+        cout << vec[i] << ' ';
+    cout << "\n" << "\n";
+}
 int main(void) {
     srand(time(NULL));
     
@@ -29,18 +33,21 @@ int main(void) {
 
     vector<pair<vector<double>,int>> dataset = exampleReader.loadFormatMNIST(img_path, label_path);    
 
-    //network.stochasticGradientDescent(dataset, 60000, 10, 0.005);
+    for (int i = 0; i < dataset.size(); i++) {
+        vector<double> scale = dataset[i].first;
+        for (int j = 0; j < scale.size(); j++) {
+            if (scale[j] != 1)
+                dataset[i].first[j] = 0;
+        }
+    }
+
+    network.stochasticGradientDescent(dataset, 60000, 3, 0.01);
     
-    testDigit("examples/0.png", network);
-    testDigit("examples/9.png", network);
-    testDigit("examples/3.png", network);
-    testDigit("examples/1.png", network);
-    testDigit("examples/7.png", network);
-    testDigit("examples/8.png", network);
-    testDigit("examples/4.png", network);
-    
+    //testDigit("examples/4.png", network);
     
 
 
     return 0;
 }
+
+//g++ main.cpp Math.cpp ExampleReader.cpp Network.cpp NetworkDatabase.cpp -o main.o -ljsoncpp `pkg-config --cflags --libs opencv4` && ./main.o
