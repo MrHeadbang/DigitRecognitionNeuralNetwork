@@ -41,7 +41,7 @@ int main(void) {
         }
     }
 
-    network.stochasticGradientDescent(dataset, 60000, 3, 0.01);
+    network.stochasticGradientDescent(dataset, 60000, 50, 0.005);
     
     //testDigit("examples/4.png", network);
     
