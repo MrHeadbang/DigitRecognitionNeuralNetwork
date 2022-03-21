@@ -28,6 +28,8 @@ class NetworkDatabase {
     public:
         void saveWeights(vector<vector<vector<double>>> weights);
         vector<vector<vector<double>>> getWeights();
+        void saveBiases(vector<vector<double>> biases);
+        vector<vector<double>> getBiases();
 };
 class Network {
     Math math;

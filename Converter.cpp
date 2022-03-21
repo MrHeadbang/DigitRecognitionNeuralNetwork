@@ -26,6 +26,24 @@ vector<vector<vector<double>>> JSONtoJS() {
     }
     return output;
 }
+
+vector<vector<double>> getBiases() {
+    vector<vector<double>> output;
+    ifstream jsonBiasesFile("networkBiases.json");
+    Json::Value jsonBiases;
+    jsonBiasesFile >> jsonBiases;
+    
+    for (int i = 0; i < jsonBiases.size(); i++) {
+        Json::Value jsonNeuronColumn = jsonBiases[i];
+        vector<double> neuronColumns;
+        for (int j = 0; j < jsonNeuronColumn.size(); j++) {
+            neuronColumns.push_back(jsonNeuronColumn[j].asDouble());
+        }
+        output.push_back(neuronColumns);
+    }
+    return output;
+}
+
 int main(void) {
     vector<vector<vector<double>>> networkData = JSONtoJS();
     string output = "var data = [";
@@ -51,6 +69,24 @@ int main(void) {
     output.append("];");
     
     ofstream file_id("WebInterface/js/networkData.js");
+    file_id << output;
+    file_id << '\n';
+
+    vector<vector<double>> networkDataBiases = getBiases();
+    output = "var biases = [";
+    for (int i = 0; i < networkDataBiases.size(); i++) {
+        output.append("[");
+        vector<double> column = networkDataBiases[i];
+        for (int j = 0; j < column.size(); j++) {
+            output.append(to_string(column[j]));
+            if(j < column.size() - 1) 
+                    output.append(", ");
+        }
+        output.append("]");
+        if(i < networkDataBiases.size() - 1) 
+                    output.append(", ");
+    }
+    output.append("];");
     file_id << output;
 
     return 0;

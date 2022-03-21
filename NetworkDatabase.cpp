@@ -44,3 +44,35 @@ vector<vector<vector<double>>> NetworkDatabase::getWeights() {
     }
     return output;
 }
+void NetworkDatabase::saveBiases(vector<vector<double>> biases) {
+    Json::Value jsonBiases;
+    for (int i = 0; i < biases.size(); i++) {
+        vector<double> neuronColumn = biases[i];
+        Json::Value jsonNeuronColumns;
+        for (int j = 0; j < neuronColumn.size(); j++) {
+            jsonNeuronColumns.append(neuronColumn[j]);
+        }
+        jsonBiases.append(jsonNeuronColumns);
+    }
+    ofstream file_id;
+    file_id.open("networkBiases.json");
+    Json::StyledWriter styledWriter;
+    file_id << styledWriter.write(jsonBiases);
+    file_id.close();
+}
+vector<vector<double>> NetworkDatabase::getBiases() {
+    vector<vector<double>> output;
+    ifstream jsonBiasesFile("networkBiases.json");
+    Json::Value jsonBiases;
+    jsonBiasesFile >> jsonBiases;
+    
+    for (int i = 0; i < jsonBiases.size(); i++) {
+        Json::Value jsonNeuronColumn = jsonBiases[i];
+        vector<double> neuronColumns;
+        for (int j = 0; j < jsonNeuronColumn.size(); j++) {
+            neuronColumns.push_back(jsonNeuronColumn[j].asDouble());
+        }
+        output.push_back(neuronColumns);
+    }
+    return output;
+}

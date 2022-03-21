@@ -1,5 +1,10 @@
 #include "main.h"
 Network::Network(vector<int> params) {
+
+    //SAVE
+    biases = networkDatabase.getBiases();
+    weights = networkDatabase.getWeights(); return;
+
     num_layers = params.size();
     sizes = params;
     for (int i = 1; i < num_layers; i++) {
@@ -10,7 +15,7 @@ Network::Network(vector<int> params) {
         }
         biases.push_back(biases_output);
     }
-    weights = networkDatabase.getWeights(); return;
+    
     for (int i = 1; i < num_layers; i++) {
         vector<vector<double>> weightNeurons;
         for (int j = 0; j < params[i]; j++) {
@@ -22,6 +27,7 @@ Network::Network(vector<int> params) {
         }
         weights.push_back(weightNeurons);
     }
+    
 }
 
 vector<double> Network::calcLayerNeurons(vector<double> layerInput, vector<vector<double>> layerWeights, vector<double> layerBiases) {
@@ -150,9 +156,15 @@ void Network::updateNetwork(vector<pair<vector<double>,int>> miniBatch, double l
                 for (int neuronIterator = 0; neuronIterator < currentNeurons.size(); neuronIterator++) {
                     weights[d][deltaIterator][neuronIterator] += learningRate * currentDelta[deltaIterator] * currentNeurons[neuronIterator];
                 }
+                biases[d][deltaIterator] -= learningRate * currentDelta[deltaIterator];
             }
         }
     }
+
+    //SAVE
     networkDatabase.saveWeights(weights);
+    networkDatabase.saveBiases(biases);
+
+
     cout << (double)correct / (double)checked * (double)100 << "\n";
 }
